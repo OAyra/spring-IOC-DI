@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- loading properties file: coach.properties -->
+	<context:property-placeholder location="classpath:coach.properties"/>
+	
+    <!-- Define your beans here -->
+    <bean id="toolKitServiceImplementation" class="com.aminfo.toolspecification.impl.ToolKitServiceImpl">
+    </bean>
+    
+    <!-- define the cunstructor based dependency -->
+ 	<bean id="danceCoachImplimantation" class="com.aminfo.coachspecification.impl.DanceCoach">
+ 		<!-- set up constructor injection -->
+ 		<constructor-arg ref="toolKitServiceImplementation"></constructor-arg>
+ 	</bean>
+ 	
+ 	<!-- define the setter based dependency -->
+ 	<bean id="cricketCoachImplimantation" class="com.aminfo.coachspecification.impl.CricketCoach">
+ 		<!-- set up setter injection setToolKit(..) method should be their inside CricketCoach class-->
+ 		<property name="toolKit" ref="toolKitServiceImplementation"></property>
+ 		
+ 		<!-- inject literal values -->
+ 		<property name="cricketCoachEmailId" value="schine@cricketCoach.com"></property>
+ 		
+ 		<!-- inject Literal values from properties file -->
+ 		<property name="name" value="${foo.name}"></property>
+ 		<property name="age" value="${foo.age}"></property>
+ 		<property name="experiance" value="${foo.experiance}"></property>
+ 	</bean>
+ 	
+ 	<!-- define the bean with scope -->
+ 	<bean id="footballCoachImpl" class="com.aminfo.coachspecification.impl.FootballCoach" scope="singleton" init-method="doPlayersStartUpStuff" destroy-method="doCleanUpStuff"></bean>
+ 	<bean id="footballCoachPrototypeImpl" class="com.aminfo.coachspecification.impl.FootballCoach" scope="prototype"></bean>
+    
+</beans>
+
+
+
+
+
